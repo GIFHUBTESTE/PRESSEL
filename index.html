@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Acesso Bloqueado</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050508; /* Preto azul escuro inspirado no TikTok */
+            --box-bg: #121216;
+            --primary: #00f2fe; /* Ciano TikTok */
+            --secondary: #fe0979; /* Magenta TikTok */
+            --text-light: #ffffff;
+            --text-muted: #888899;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
+            background-image: radial-gradient(circle at 20% 0%, rgba(0, 242, 254, 0.08) 0%, transparent 40%),
+                              radial-gradient(circle at 80% 100%, rgba(254, 9, 121, 0.08) 0%, transparent 40%);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .icon-blocked {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 59, 48, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            box-shadow: 0 0 20px rgba(255, 59, 48, 0.3);
+            animation: pulseIcon 2s infinite;
+        }
+
+        @keyframes pulseIcon {
+            0% { box-shadow: 0 0 20px rgba(255, 59, 48, 0.3); transform: scale(1); }
+            50% { box-shadow: 0 0 35px rgba(255, 59, 48, 0.6); transform: scale(1.05); }
+            100% { box-shadow: 0 0 20px rgba(255, 59, 48, 0.3); transform: scale(1); }
+        }
+
+        .icon-blocked svg {
+            width: 35px;
+            height: 35px;
+            color: #ff3b30;
+        }
+
+        .title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .title-red {
+            color: #ff3b30;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .subtitle b {
+            color: var(--text-light);
+        }
+
+        .game-container {
+            width: 90%;
+            max-width: 380px;
+            background: linear-gradient(145deg, rgba(25,25,30,0.8), rgba(15,15,20,0.8));
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 28px;
+            padding: 50px 20px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .emoji-btn {
+            font-size: 110px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            outline: none;
+            display: inline-block;
+            transition: transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+            animation: pulseEmoji 1.5s infinite;
+            filter: drop-shadow(0 0 25px rgba(255,255,255,0.15));
+            user-select: none;
+        }
+
+        @keyframes pulseEmoji {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); filter: drop-shadow(0 0 40px rgba(0, 242, 254, 0.4)); }
+            100% { transform: scale(1); }
+        }
+
+        .click-text {
+            margin-top: 35px;
+            font-size: 1.15rem;
+            font-weight: 900;
+            color: var(--primary);
+            height: 28px;
+            transition: all 0.3s;
+            text-shadow: 0 0 15px rgba(0, 242, 254, 0.5);
+            text-transform: uppercase;
+        }
+
+        .progress-container {
+            width: 85%;
+            max-width: 350px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            box-shadow: 0 0 15px var(--secondary);
+        }
+
+        .progress-text {
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-top: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="icon-blocked">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+            </svg>
+        </div>
+        <div class="title">ACESSO <span class="title-red">BLOQUEADO</span></div>
+        <div class="subtitle">Toque rápido para <b>desbloquear!</b></div>
+    </div>
+
+    <div class="game-container">
+        <!-- Emoji button -->
+        <button class="emoji-btn" id="emojiBtn"><span id="emojiIcon" style="display:inline-block; transition: transform 1s cubic-bezier(0.25, 1, 0.5, 1);">🎁</span></button>
+        <div class="click-text" id="clickText">CLIQUE AQUI!</div>
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-text" id="progressText">0 / 3 — Desbloqueando...</div>
+    </div>
+
+    <script>
+        const emojiBtn = document.getElementById('emojiBtn');
+        const emojiIcon = document.getElementById('emojiIcon');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const clickText = document.getElementById('clickText');
+        
+        // Randomizar o emoji a cada acesso
+        const emojis = ['🎁', '🤑', '🔥', '💎', '🍀', '💰', '✨', '🎯'];
+        emojiIcon.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+
+        let clicks = 0;
+        const maxClicks = 3;
+        let currentRotation = 0;
+
+        // Textos para cada clique
+        const messages = [
+            "CLIQUE AQUI!",
+            "ISSO! CLIQUE DE NOVO!",
+            "SÓ MAIS UMA VEZ!",
+            "DESBLOQUEADO!"
+        ];
+
+        emojiBtn.addEventListener('click', () => {
+            if (clicks >= maxClicks) return;
+
+            clicks++;
+            
+            // Aumenta a rotação atual em 1080 graus (3 voltas completas)
+            currentRotation += 1080; 
+            
+            // Gira SOMENTE o ícone interno (a animação de pulsar continua no botão)
+            emojiIcon.style.transform = `rotate(${currentRotation}deg)`;
+            
+            // Atualiza barra de progresso
+            const percentage = (clicks / maxClicks) * 100;
+            progressFill.style.width = percentage + '%';
+            progressText.innerHTML = `${clicks} / ${maxClicks} — Desbloqueando...`;
+            
+            // Atualiza o texto abaixo
+            clickText.innerHTML = messages[clicks];
+
+            if (clicks === maxClicks) {
+                clickText.style.color = 'var(--secondary)'; // Muda pra magenta
+                clickText.style.textShadow = '0 0 15px rgba(254, 9, 121, 0.5)';
+                
+                // Dá um pequeno destaque final no botão
+                emojiBtn.style.animation = 'none';
+                emojiBtn.style.transform = `scale(1.2)`;
+                
+                // Inicia o carregamento final (0 a 100% em ~3 segundos)
+                setTimeout(() => {
+                    clickText.innerHTML = "PREPARANDO ACESSO...";
+                    clickText.style.color = 'var(--primary)';
+                    clickText.style.textShadow = '0 0 15px rgba(0, 242, 254, 0.5)';
+
+                    // Reseta a barra instantaneamente para 0%
+                    progressFill.style.transition = 'none';
+                    progressFill.style.width = '0%';
+                    
+                    // Força o navegador a registrar o 0% antes de iniciar a nova animação
+                    void progressFill.offsetWidth;
+                    
+                    // Define a transição de volta para 3 segundos e preenche a barra
+                    progressFill.style.transition = 'width 3s linear';
+                    progressFill.style.width = '100%';
+                    
+                    let percentage = 0;
+                    // Atualiza o texto de 0 a 100% acompanhando a barra (3000ms / 100 = 30ms)
+                    const interval = setInterval(() => {
+                        percentage++;
+                        progressText.innerHTML = `Carregando... ${percentage}%`;
+                        
+                        if (percentage >= 100) {
+                            clearInterval(interval);
+                            progressText.innerHTML = `Carregamento Completo!`;
+                            
+                            // Redireciona logo em seguida
+                            setTimeout(() => {
+                                window.location.href = "https://t.me/amaeefilha_bot";
+                            }, 300);
+                        }
+                    }, 30);
+                    
+                }, 500); // Espera 0.5s após o 3º clique para iniciar o loading
+            }
+        });
+    </script>
+</body>
+</html>
