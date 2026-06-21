@@ -272,7 +272,7 @@ var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n
                     progressFill.style.width = '100%';
                     
                     let percentage = 0;
-                    // Atualiza o texto de 0 a 100% acompanhando a barra (3000ms / 100 = 30ms)
+                    // Atualiza o texto de 0 a 100% acompanhando a barra (5000ms / 100 = 50ms)
                     const interval = setInterval(() => {
                         percentage++;
                         progressText.innerHTML = `Carregando... ${percentage}%`;
